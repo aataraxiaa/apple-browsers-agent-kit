@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Bounded Apple browsers cache and simulator ownership operations (stdlib only)."""
 import argparse
-import errno
 import fcntl
 from functools import wraps
 import json
+import inspect
 import os
 from pathlib import Path
 import shlex
@@ -22,7 +22,7 @@ def run(*args, cwd=None):
 
 
 def safe(path, root):
-    path, root = Path(path).absolute(), Path(root).absolute()
+    path, root = Path(os.path.abspath(path)), Path(os.path.abspath(root))
     if path == root or not path.is_relative_to(root):
         raise ValueError('Path escapes resource root')
     for item in (path, *path.parents):
@@ -34,7 +34,7 @@ def safe(path, root):
 
 
 def canonical(checkout, root=ROOT):
-    checkout = Path(checkout).absolute()
+    checkout = Path(os.path.abspath(checkout))
     if checkout.is_symlink():
         raise ValueError("Symlink checkout refused")
     cache = safe(Path(root) / '.dd' / checkout.name, Path(root) / '.dd')
@@ -55,11 +55,12 @@ def live_paths(output):
             tokens = shlex.split(line)
             for index, token in enumerate(tokens):
                 if token == '-derivedDataPath' and index + 1 < len(tokens):
-                    
                     if index + 2 < len(tokens) and not tokens[index + 2].startswith('-'):
                         raise ValueError('Ambiguous process derived-data path; refusing cleanup')
                     paths.add(str(Path(tokens[index + 1]).absolute()))
                 elif token.startswith('-derivedDataPath='):
+                    if index + 1 < len(tokens) and not tokens[index + 1].startswith('-'):
+                        raise ValueError('Ambiguous process derived-data path')
                     paths.add(str(Path(token.split('=', 1)[1]).absolute()))
         except ValueError:
             raise ValueError('Cannot safely parse live build process')
@@ -90,6 +91,8 @@ def cache_plan(root, current, live):
         try:
             safe(cache, dd)
             meta = json.loads((cache / '.apple-owner.json').read_text())
+            if time.time() - meta.get('lastUsed', 0) < 120:
+                continue
             owner = Path(meta['checkout'])
             if owner.is_symlink():
                 continue
@@ -153,7 +156,7 @@ def prepare(checkout, root=ROOT, free=None, live=None):
 def serialized(function):
     @wraps(function)
     def invoke(*args, **kwargs):
-        root = kwargs.get('root', args[5] if function.__name__ == 'lease' and len(args) > 5 else args[1] if function.__name__ == 'release' and len(args) > 1 else ROOT)
+        root = inspect.signature(function).bind(*args, **kwargs).arguments.get('root', ROOT)
         Path(root).mkdir(parents=True, exist_ok=True)
         guard = safe(Path(root) / '.sim-guard', root)
         with guard.open('a') as stream:
@@ -162,9 +165,20 @@ def serialized(function):
     return invoke
 
 
-@serialized
+def validate_identity(session, pid):
+    if not isinstance(session, str) or not session.strip() or not isinstance(pid, int) or isinstance(pid, bool) or pid <= 0:
+        raise ValueError('A nonempty session and live positive process PID are required')
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError as error:
+        raise ValueError('Owner process is not alive') from error
+    except PermissionError:
+        pass
 
+
+@serialized
 def lease(inventory, session, pid, os_version, idiom, root=ROOT):
+    validate_identity(session, pid)
     locks = Path(root) / '.sim-locks'
     locks.mkdir(parents=True, exist_ok=True)
     safe(locks / 'probe', root)
@@ -188,7 +202,7 @@ def lease(inventory, session, pid, os_version, idiom, root=ROOT):
                     json.dump(token, stream)
                 touch_created(ident, root)
                 return token
-            except (KeyError, ValueError, PermissionError):
+            except (KeyError, TypeError, ValueError, PermissionError):
                 pass
             continue
     raise ValueError('No matching unleased simulator; lifecycle creation requires authorized provider support')
@@ -212,14 +226,18 @@ def touch_created(ident, root):
         path.write_text(json.dumps(record))
 
 
+@serialized
 def lifecycle(action, inventory, root=ROOT, token=None, name=None, device_type=None, runtime=None, execute=run):
     """Only create/shutdown/delete; provenance is independent of lease ownership."""
     provenance = Path(root) / '.sim-created'
     provenance.mkdir(parents=True, exist_ok=True)
     safe(provenance / 'probe', root)
     if action == 'create':
-        if not token or not token.get('session') or not token.get('pid'):
+        if not token:
             raise ValueError('Stable session and PID required')
+        validate_identity(token.get('session'), token.get('pid'))
+        if not name or not name.startswith('agent-') or not device_type or not runtime:
+            raise ValueError('Creation requires an agent- name, device type and runtime')
         ident = str(uuid.UUID(execute('xcrun', 'simctl', 'create', name, device_type, runtime)))
         record = {'uuid': ident, 'name': name, 'created': time.time(), 'lastUsed': time.time(),
                   'session': token['session'], 'pid': token['pid']}
@@ -249,10 +267,19 @@ def lifecycle(action, inventory, root=ROOT, token=None, name=None, device_type=N
         safe(path, provenance)
         record = json.loads(path.read_text())
         ident = str(uuid.UUID(record['uuid']))
-        if path.name != ident + '.json' or time.time() - record['lastUsed'] < 7 * 86400:
+        if path.name != ident + '.json' or not record['name'].startswith('agent-') or time.time() - record['lastUsed'] < 7 * 86400:
             continue
-        if (Path(root) / '.sim-locks' / (ident + '.json')).exists():
-            continue
+        existing_lease = Path(root) / '.sim-locks' / (ident + '.json')
+        if existing_lease.exists():
+            try:
+                lease_record = json.loads(existing_lease.read_text())
+                os.kill(int(lease_record['pid']), 0)
+            except ProcessLookupError:
+                existing_lease.unlink()
+            except (OSError, ValueError, KeyError):
+                continue
+            else:
+                continue
         matches = [sim for sim in inventory if sim['uuid'] == ident and sim['name'] == record['name'] and sim['state'] == 'Shutdown']
         if len(matches) != 1:
             continue
@@ -261,7 +288,7 @@ def lifecycle(action, inventory, root=ROOT, token=None, name=None, device_type=N
         reservation = locks / (ident + '.json')
         try:
             with reservation.open('x') as stream:
-                json.dump({'maintenance': True}, stream)
+                json.dump({'maintenance': True, 'pid': os.getpid()}, stream)
         except FileExistsError:
             continue
         try:
@@ -274,7 +301,7 @@ def lifecycle(action, inventory, root=ROOT, token=None, name=None, device_type=N
 
 
 def cleanup(checkout, root=ROOT):
-    checkout = Path(checkout).absolute()
+    checkout = Path(os.path.abspath(checkout))
     if checkout.is_symlink():
         raise ValueError("Symlink checkout refused")
     cache = canonical(checkout, root)
@@ -305,29 +332,104 @@ def cleanup(checkout, root=ROOT):
     return {'removedWorktree': str(checkout), 'removedCache': str(cache), 'branch': branch}
 
 
-def report(root=ROOT, scan=False):
+def report(root=ROOT, scan=False, checkout=None):
     dd = Path(root) / '.dd'
-    rows = []
     if dd.is_symlink():
         return {'error': 'Symlink cache root refused'}
-    for cache in list(dd.iterdir())[:100] if dd.exists() else []:
-        try:
-            safe(cache, dd)
-            meta = json.loads((cache / '.apple-owner.json').read_text())
-            if scan:
-                meta['estimatedBytes'] = size(cache)
-                meta['sizeObservedAt'] = time.time()
-                try:
-                    run('git', 'merge-base', '--is-ancestor', 'HEAD', 'origin/main', cwd=meta['checkout'])
-                    meta['merged'] = True
-                except (OSError, subprocess.SubprocessError):
-                    meta['merged'] = None
-                (cache / '.apple-owner.json').write_text(json.dumps(meta))
-            rows.append({'cache': str(cache), 'checkout': meta['checkout'], 'gone': not Path(meta['checkout']).exists(), 'merged': meta.get('merged'), 'sizeObservedAt': meta.get('sizeObservedAt'), 'estimatedBytes': size(cache) if scan else meta.get('estimatedBytes'),
-                         'cleanupCommand': 'python3 resources.py cleanup ' + shlex.quote(meta['checkout'])})
-        except (OSError, ValueError, KeyError):
+    deadline = time.monotonic() + (30 if scan else 0.5)
+    rows = {}
+    known = []
+    truncated = False
+    if dd.exists():
+        for cache in dd.iterdir():
+            if len(known) >= 100:
+                truncated = True
+                break
+            try:
+                safe(cache, dd)
+                if not cache.is_dir():
+                    continue
+                meta = json.loads((cache / '.apple-owner.json').read_text()) if (cache / '.apple-owner.json').is_file() else {}
+                known.append((cache, meta))
+            except (OSError, ValueError):
+                continue
+    origin = checkout or next((m.get('checkout') for _, m in known if Path(m.get('checkout', '/nonexistent')).is_dir()), None)
+    def git(*args, cwd=origin):
+        remaining = deadline - time.monotonic()
+        if not cwd or remaining <= 0:
+            raise TimeoutError('Report budget reached')
+        return subprocess.check_output(['git', *args], cwd=cwd, text=True, stderr=subprocess.DEVNULL, timeout=remaining).strip()
+    try:
+        entries = git('worktree', 'list', '--porcelain').split('\n\n')
+        for index, entry in enumerate(entries):
+            fields = dict(line.split(' ', 1) for line in entry.splitlines() if ' ' in line)
+            if 'worktree' not in fields:
+                continue
+            path = fields['worktree']
+            rows[path] = {'checkout': path, 'branch': fields.get('branch', '').removeprefix('refs/heads/'), 'primary': index == 0}
+    except (OSError, subprocess.SubprocessError, TimeoutError):
+        pass
+    for cache, meta in known:
+        path = meta.get('checkout', '')
+        rows.setdefault(path or str(cache), {'checkout': path, 'primary': False})
+        rows[path or str(cache)].update(cache=str(cache), estimatedBytes=meta.get('estimatedBytes'), sizeObservedAt=meta.get('sizeObservedAt'))
+    for row in rows.values():
+        path = row['checkout']
+        cache = Path(row.get('cache', dd / Path(path).name))
+        row['cache'] = str(cache)
+        row['gone'] = bool(path) and not Path(path).exists()
+        row['merged'] = False
+        row['remoteGone'] = False
+        if path and Path(path).exists() and not row['primary']:
+            try:
+                git('merge-base', '--is-ancestor', 'HEAD', 'origin/main', cwd=path)
+                row['merged'] = True
+            except (OSError, subprocess.SubprocessError, TimeoutError):
+                pass
+            try:
+                tracking = git('for-each-ref', '--format=%(upstream:track)', 'refs/heads/' + row.get('branch', ''), cwd=path)
+                row['remoteGone'] = tracking == '[gone]'
+            except (OSError, subprocess.SubprocessError, TimeoutError):
+                pass
+        if not cache.exists():
+            row['estimatedBytes'] = 0
+        elif time.monotonic() < deadline:
+            try:
+                safe(cache, dd)
+                remaining = deadline - time.monotonic()
+                row['estimatedBytes'] = int(subprocess.check_output(['du', '-sk', str(cache)], text=True, stderr=subprocess.DEVNULL, timeout=max(0.001, remaining)).split()[0]) * 1024
+                row['sizeObservedAt'] = time.time()
+                if scan and (cache / '.apple-owner.json').is_file():
+                    meta = json.loads((cache / '.apple-owner.json').read_text())
+                    meta.update(estimatedBytes=row['estimatedBytes'], sizeObservedAt=row['sizeObservedAt'])
+                    temp = cache / ('.report-' + str(uuid.uuid4()))
+                    temp.write_text(json.dumps(meta)); temp.replace(cache / '.apple-owner.json')
+            except (OSError, ValueError, subprocess.SubprocessError):
+                pass
+        row['cleanupCommand'] = 'python3 ' + shlex.quote(str(Path(__file__).resolve())) + ' cleanup ' + shlex.quote(path) if path and not row['primary'] else None
+    values = list(rows.values())
+    return {'totalKnownBytes': sum(r.get('estimatedBytes') or 0 for r in values),
+            'totalComplete': not truncated and all(r.get('estimatedBytes') is not None for r in values),
+            'truncated': truncated,
+            'sizes': 'allocated bytes; bounded samples or cached estimates; remoteGone uses local tracking state',
+            'caches': values, 'budgetReached': time.monotonic() >= deadline}
+
+
+def report_text(result):
+    if 'error' in result:
+        return 'Apple browsers resource report: ' + result['error']
+    total = result['totalKnownBytes'] / 1024**3
+    lines = [f"Apple browsers caches: {total:.2f} GiB {'(sampled/cached)' if result['totalComplete'] else '(known minimum; some sizes unavailable)'}"]
+    for row in result['caches']:
+        if row.get('primary') or not (row['merged'] or row['remoteGone'] or row['gone']):
             continue
-    return {'cacheCount': len(rows), 'sizes': 'cached estimates from previous prepare; unknown values are null', 'caches': rows}
+        amount = row.get('estimatedBytes')
+        label = f'{amount / 1024**3:.2f} GiB' if amount is not None else 'size unknown'
+        state = 'worktree absent' if row['gone'] else 'merged' if row['merged'] else 'upstream gone in local tracking'
+        lines.append(f"{row['checkout']}: {state}, {label}")
+        if row['cleanupCommand'] and not row['gone']:
+            lines.append(row['cleanupCommand'])
+    return '\n'.join(lines)
 
 
 def main():
@@ -345,8 +447,13 @@ def main():
     parser.add_argument('--device-type')
     parser.add_argument('--runtime')
     args = parser.parse_args()
-    if args.action in ('prepare', 'cleanup'):
-        result = globals()[args.action](args.checkout, args.root)
+    if args.action == 'prepare':
+        try:
+            result = prepare(args.checkout, args.root)
+        except (OSError, ValueError, subprocess.SubprocessError) as error:
+            result = {'warning': str(error), 'continueBuild': True}
+    elif args.action == 'cleanup':
+        result = cleanup(args.checkout, args.root)
     elif args.action == 'lease':
         result = lease(json.loads(args.inventory.read_text()), args.session, args.pid, args.os, args.idiom, args.root)
     elif args.action == 'release':
@@ -356,7 +463,7 @@ def main():
         result = lifecycle(args.action, json.loads(args.inventory.read_text()) if args.inventory else [], args.root,
                            json.loads(args.token.read_text()) if args.token else None, args.name, args.device_type, args.runtime)
     else:
-        result = report(args.root, scan=True)
+        result = report(args.root, scan=True, checkout=args.checkout)
     print(json.dumps(result))
 
 

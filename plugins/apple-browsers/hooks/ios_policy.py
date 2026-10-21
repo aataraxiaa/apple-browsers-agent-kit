@@ -118,6 +118,7 @@ def bypass(command):
 
 
 def handle(event):
+    resource_root = Path(sys.argv[2]) if len(sys.argv) == 3 and sys.argv[1] == "--root" else resources.ROOT
     data = event.get("tool_input") or {}
     command = data.get("command", data.get("cmd", ""))
     paths = [event.get("cwd"), data.get("cwd"), data.get("workdir"), data.get("workspacePath"), data.get("projectPath")]
@@ -133,13 +134,17 @@ def handle(event):
     if not any(checkout(path) for path in paths):
         return {}
     if event.get("hook_event_name") == "Stop":
-        return {"systemMessage": "Apple browsers resource report: " + json.dumps(resources.report(Path(sys.argv[2]) if len(sys.argv) == 3 and sys.argv[1] == "--root" else resources.ROOT))}
+        return {"systemMessage": resources.report_text(resources.report(resource_root, checkout=event.get("cwd")))}
     if event.get("hook_event_name") != "PreToolUse":
         return {}
     tool = event.get("tool_name", "")
     parts = tool.split("__")
     provider, operation = parts[1:] if len(parts) == 3 and parts[0] == "mcp" else (None, None)
     if provider in PROVIDERS:
+        if operation == "erase_sims":
+            ident = data.get("simulatorId")
+            if not simulator_id(ident) or not (resource_root / ".sim-created" / (ident.lower() + ".json")).is_file():
+                return deny("Never erase a simulator without this plugin's creation record.")
         if operation in DEBUG_SESSION_TOOLS:
             session = data.get("debugSessionId")
             if not isinstance(session, str) or not session.strip():
@@ -154,11 +159,13 @@ def handle(event):
             selected = (Path(explicit) if Path(explicit).is_absolute() else base / explicit) if explicit else next((Path(p).absolute() for p in paths if p and checkout(p)), None)
             selected = selected.absolute() if selected else None
             while selected and not (selected / "DuckDuckGo.xcworkspace").is_dir():
+                if selected.parent == selected:
+                    return {}
                 selected = selected.parent
             try:
-                cache = resources.canonical(selected)
+                cache = resources.canonical(selected, resource_root)
                 try:
-                    completed = subprocess.run([sys.executable, str(ROOT / "scripts/resources.py"), "prepare", str(selected)],
+                    completed = subprocess.run([sys.executable, str(ROOT / "scripts/resources.py"), "prepare", str(selected), "--root", str(resource_root)],
                                                capture_output=True, text=True, timeout=2)
                     prepared = json.loads(completed.stdout) if completed.returncode == 0 else {"warning": completed.stderr.strip()}
                 except (subprocess.TimeoutExpired, ValueError):

@@ -33,6 +33,48 @@ class Resources(unittest.TestCase):
             self.assertTrue(Path(result['derivedDataPath']).exists())
             self.assertEqual([x['path'] for x in result['removed']], [str(orphan)])
 
+    def test_reclaim_order_and_threshold(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for name, used in [('orphan', 99), ('merged', 20), ('gone', 30), ('lru', 1), ('recent', 2), ('live', 0), ('current', 0)]:
+                owner = root / name
+                if name != 'orphan':
+                    owner.mkdir()
+                cache = root / '.dd' / name
+                cache.mkdir(parents=True)
+                (cache / 'product').write_bytes(b'cache')
+                (cache / '.apple-owner.json').write_text(json.dumps({'checkout': str(owner), 'lastUsed': used}))
+            def git(*args, cwd=None):
+                if args[1] == 'merge-base' and Path(cwd).name == 'merged':
+                    return ''
+                if args[1] == 'rev-parse' and Path(cwd).name == 'gone':
+                    return 'origin/gone'
+                if args[1] == 'ls-remote':
+                    return 'head' if args[-1] == 'HEAD' else ''
+                raise subprocess.CalledProcessError(1, args)
+            protected = lambda: {str(root / '.dd/live')}
+            with patch.object(r, 'run', side_effect=git):
+                result = r.prepare(root / 'current', root, free=lambda: 0, live=protected)
+            self.assertEqual([Path(x['path']).name for x in result['removed']], ['orphan', 'merged', 'gone', 'lru', 'recent'])
+            self.assertTrue((root / '.dd/current/product').exists())
+            self.assertTrue((root / '.dd/live/product').exists())
+            self.assertTrue(result['belowTarget'])
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for name in ('one', 'two'):
+                cache = root / '.dd' / name
+                cache.mkdir(parents=True)
+                (cache / '.apple-owner.json').write_text(json.dumps({'checkout': str(root / name), 'lastUsed': 0}))
+            free = lambda: r.TARGET if not (root / '.dd/one').exists() else 0
+            result = r.prepare(root / 'current', root, free=free, live=lambda: set())
+            self.assertEqual(len(result['removed']), 1)
+            self.assertTrue((root / '.dd/two').exists())
+
+    def test_path_traversal_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaises(ValueError):
+                r.safe(Path(tmp) / '.dd/../other', Path(tmp) / '.dd')
+
     def test_process_failure_preserves_caches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -55,7 +97,7 @@ class Resources(unittest.TestCase):
             hook = Path(__file__).parents[1]/'plugins/apple-browsers/hooks/ios_policy.py'
             output = subprocess.check_output(['python3',str(hook),'--root',str(root)],input=json.dumps({'cwd':str(checkout),'hook_event_name':'Stop'}),text=True)
             report = json.loads(output)
-            self.assertIn('resource report',report['systemMessage'])
+            self.assertIn('Apple browsers caches',report['systemMessage'])
             self.assertNotIn('decision',report)
 
     def test_collision_and_symlink(self):
@@ -74,11 +116,36 @@ class Resources(unittest.TestCase):
             inventory = [{'uuid':'12345678-1234-1234-1234-123456789abc','os':'18','idiom':'phone','state':'Booted'}]
             token = r.lease(inventory,'session',os.getpid(),'18','phone',root)
             with self.assertRaises(ValueError):
-                r.lease(inventory,'other',456,'18','phone',root)
+                r.lease(inventory,'other',os.getpid(),'18','phone',root)
             with self.assertRaises(ValueError):
                 r.release(dict(token,token='stale'),root)
             r.release(token,root)
-            r.lease(inventory,'other',456,'18','phone',root)
+            r.lease(inventory,'other',os.getpid(),'18','phone',root)
+
+    def test_hook_uses_explicit_workspace(self):
+        hook_path = Path(__file__).parents[1] / 'plugins/apple-browsers/hooks/ios_policy.py'
+        spec = importlib.util.spec_from_file_location('resource_hook', hook_path)
+        hook = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(hook)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for name in ('chat', 'target'):
+                (root / name / 'DuckDuckGo.xcworkspace').mkdir(parents=True)
+                (root / name / 'iOS/DuckDuckGo-iOS.xcodeproj').mkdir(parents=True)
+            event = {'cwd': str(root / 'chat'), 'hook_event_name': 'PreToolUse', 'tool_name': 'mcp__mobilebuild__build_sim',
+                     'tool_input': {'workspacePath': str(root / 'target/DuckDuckGo.xcworkspace'), 'simulatorId': '12345678-1234-1234-1234-123456789abc'}}
+            with patch.object(hook.resources, 'canonical', side_effect=lambda checkout, _root: r.canonical(checkout, root)), patch.object(hook.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, '{}', '')):
+                output = hook.handle(event)['hookSpecificOutput']
+            self.assertEqual(output['updatedInput']['derivedDataPath'], str(root / '.dd/target'))
+            self.assertNotIn('permissionDecision', output)
+
+    def test_invalid_owner_cannot_claim(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            inventory = [{'uuid':'12345678-1234-1234-1234-123456789abc','os':'18','idiom':'phone','state':'Booted'}]
+            for session, pid in [('', os.getpid()), ('owner', None), ('owner', -1)]:
+                with self.assertRaises(ValueError):
+                    r.lease(inventory, session, pid, '18', 'phone', Path(tmp))
+            self.assertFalse((Path(tmp) / '.sim-locks').exists())
 
     def test_lifecycle_provenance(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -88,14 +155,14 @@ class Resources(unittest.TestCase):
             def execute(*args):
                 calls.append(args)
                 return ident
-            created=r.lifecycle('create',[],root,{'session':'run','pid':123},'agent','type','runtime',execute)
+            created=r.lifecycle('create',[],root,{'session':'run','pid':os.getpid()},'agent-test','type','runtime',execute)
             record=created['provenance']
             lease=created['lease']
             r.lifecycle('shutdown',[],root,lease,execute=execute)
             r.release(lease,root)
             record['lastUsed']=0
             (root/'.sim-created'/ (ident+'.json')).write_text(json.dumps(record))
-            self.assertEqual(r.lifecycle('delete-stale',[{'uuid':ident,'name':'agent','state':'Shutdown'}],root,execute=execute),[ident])
+            self.assertEqual(r.lifecycle('delete-stale',[{'uuid':ident,'name':'agent-test','state':'Shutdown'}],root,execute=execute),[ident])
             self.assertEqual([call[2] for call in calls],['create','shutdown','delete'])
 
     def test_real_worktree_cleanup(self):
