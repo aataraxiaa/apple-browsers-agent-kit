@@ -1,0 +1,2127 @@
+{
+  "source_commit": "89c18e4893ab5f5f51f3c82ba8c852d367799dd1",
+  "status": "mapped-not-executed",
+  "yaml_count": 199,
+  "sources": [
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/01_yjs_heuristic_no_ad_domain_param_u3_param_included.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/02_mjs_heuristic_no_ad_domain_param_dsl_param_included.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/03_yjs_heuristic_no_ad_domain_param_but_missing_u3_param.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/04_mjs_heuristic_no_ad_domain_param_but_missing_dsl_param.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/05_yjs_heuristic_ad_domain_provided_but_empty_u3_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/06_mjs_heuristic_ad_domain_provided_but_empty_dsl_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/07_yjs_bing-provided_ad_domain_provided_u3_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/08_mjs_bing-provided_ad_domain_provided_dsl_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/09_yjs_bing-provided_ad_domain_provided_but_incorrect_u3_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/10_mjs_bing-provided_ad_domain_provided_but_incorrect_dsl_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/11_yjs_bing-provided_ad_domain_provided_but_its_not_a_domain_u3_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/12_mjs_bing-provided_ad_domain_provided_but_its_not_a_domain_dsl_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/13_yjs_bing-provided_ad_domain_provided_but_its_a_subdomain_of_advertiser_u3_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ad_click_detection_flow_tests/14_mjs_bing-provided_ad_domain_provided_but_its_a_subdomain_of_advertiser_dsl_not_needed.yaml",
+      "feature": "ad-click-detection.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "adClick"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/duckai_chrome_shortcut_contextual_sheet_toggle.yaml",
+      "feature": "ipad-duckai-shortcuts.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/duckai_chrome_shortcut_global_disable.yaml",
+      "feature": "ipad-duckai-shortcuts.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/duckai_chrome_shortcut_menu_actions.yaml",
+      "feature": "ipad-duckai-shortcuts.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/duckai_chrome_shortcut_settings_toggle.yaml",
+      "feature": "ipad-duckai-shortcuts.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/duckai_chrome_shortcut_tap_opens_duckai.yaml",
+      "feature": "ipad-duckai-shortcuts.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/duckai_chrome_shortcut_visible_on_duckai_page.yaml",
+      "feature": "ipad-duckai-shortcuts.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/ics_calendar_links_happy_path.yaml",
+      "feature": "calendar-contact-imports.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/ics_calendar_links_multi_event_fallback.yaml",
+      "feature": "calendar-contact-imports.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/ics_calendar_links_parse_failure_fallback.yaml",
+      "feature": "calendar-contact-imports.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/ics_calendar_links_unrecognized_timezone_fallback.yaml",
+      "feature": "calendar-contact-imports.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/opening_tabs.yaml",
+      "feature": "browser-navigation.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/search_bar.yaml",
+      "feature": "browser-navigation.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/state_restoration.yaml",
+      "feature": "browser-navigation.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/swipe_tabs.yaml",
+      "feature": "browser-navigation.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/vcf_contact_links_happy_path.yaml",
+      "feature": "calendar-contact-imports.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/vcf_contact_links_multiple_contacts.yaml",
+      "feature": "calendar-contact-imports.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/browser_features/vcf_contact_links_parse_failure.yaml",
+      "feature": "calendar-contact-imports.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/config.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/data_clearing_tests/01_fire_proofing.yaml",
+      "feature": "fireproof-data-clearing.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/data_clearing_tests/02_duckduckgo_settings.yaml",
+      "feature": "fireproof-data-clearing.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/data_clearing_tests/02_fire_proofing_etldplus1.yaml",
+      "feature": "fireproof-data-clearing.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/device_info/ipad.yaml",
+      "feature": "device-and-overrides.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "ipad",
+        "device_info"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/device_info/iphone.yaml",
+      "feature": "device-and-overrides.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "device_info"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/01_direct_duckplayer.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/02_always_serp_organic.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/03_always_serp_videos.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/04_always_youtube.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/06_ask_serp_videos.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/07_ask_youtube.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/08_never_serp_organic.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/09_never_serp_videos.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/10_never_youtube.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/11_watch_on_youtube.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/shared/close_settings.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "helper",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/shared/constants.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "helper",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/shared/duckplayer_is_visible.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "helper",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/shared/load_duck_url.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "helper",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/shared/load_serp_url.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "helper",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/shared/load_youtube_url.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "helper",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/shared/open_settings.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "helper",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_classic/shared/youtube_is_visible.yaml",
+      "feature": "duckplayer-classic.md",
+      "kind": "helper",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/02_serp_off_organic.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/open_settings.yaml",
+        ".maestro/duckplayer_native/shared/close_settings.yaml",
+        ".maestro/duckplayer_native/shared/load_serp_url.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+        ".maestro/duckplayer_native/shared/pill_is_visible.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/03_serp_off_videos.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/open_settings.yaml",
+        ".maestro/duckplayer_native/shared/close_settings.yaml",
+        ".maestro/duckplayer_native/shared/load_serp_url.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+        ".maestro/duckplayer_native/shared/pill_is_visible.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/05_serp_on_organic.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/load_serp_url.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+        ".maestro/duckplayer_native/shared/duckplayer_is_visible.yaml",
+        ".maestro/duckplayer_native/shared/close_player.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/06_serp_on_videos.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/load_serp_url.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+        ".maestro/duckplayer_native/shared/duckplayer_is_visible.yaml",
+        ".maestro/duckplayer_native/shared/close_player.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/07_youtube_dont_show.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/open_settings.yaml",
+        ".maestro/duckplayer_native/shared/close_settings.yaml",
+        ".maestro/duckplayer_native/shared/load_youtube_url.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/08_youtube_let_me_choose.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/open_settings.yaml",
+        ".maestro/duckplayer_native/shared/close_settings.yaml",
+        ".maestro/duckplayer_native/shared/load_youtube_url.yaml",
+        ".maestro/duckplayer_native/shared/pill_is_visible.yaml",
+        ".maestro/duckplayer_native/shared/duckplayer_is_visible.yaml",
+        ".maestro/duckplayer_native/shared/close_player.yaml",
+        ".maestro/shared/use_firebutton.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/09_youtube_auto.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/open_settings.yaml",
+        ".maestro/duckplayer_native/shared/close_settings.yaml",
+        ".maestro/duckplayer_native/shared/load_youtube_url.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+        ".maestro/duckplayer_native/shared/duckplayer_is_visible.yaml",
+        ".maestro/duckplayer_native/shared/close_player.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/10_youtube_open_settings.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/open_settings.yaml",
+        ".maestro/duckplayer_native/shared/close_settings.yaml",
+        ".maestro/duckplayer_native/shared/load_youtube_url.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+        ".maestro/duckplayer_native/shared/duckplayer_is_visible.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/11_serp_watch_in_youtube.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/load_serp_url.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+        ".maestro/duckplayer_native/shared/duckplayer_is_visible.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/12_youtube_watch_in_youtube.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml",
+        ".maestro/shared/setup.yaml",
+        ".maestro/duckplayer_native/shared/open_settings.yaml",
+        ".maestro/duckplayer_native/shared/close_settings.yaml",
+        ".maestro/duckplayer_native/shared/load_youtube_url.yaml",
+        ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+        ".maestro/duckplayer_native/shared/duckplayer_is_visible.yaml",
+        ".maestro/duckplayer_native/shared/close_player.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "duckplayer_native"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/close_player.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/close_settings.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/constants.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/duckplayer_is_visible.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/load_serp_url.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/load_youtube_url.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/open_settings.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/duckplayer_native/shared/constants.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/pill_is_visible.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/duckplayer_native/shared/tap_serp_title.yaml",
+      "feature": "native-duckplayer.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ipad_duckai/ipad_duckai_bar_controls.yaml",
+      "feature": "ipad-duckai.md",
+      "kind": "scenario",
+      "dependencies": [],
+      "tags": [
+        "ipad",
+        "ipad_duckai"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/onboarding_tests/01_onboarding_contextual.yaml",
+      "feature": "onboarding.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/onboarding_tests/shared/onboarding.yaml",
+        ".maestro/shared/use_firebutton.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "onboarding"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/onboarding_tests/02_onboarding_add_to_dock_intro.yaml",
+      "feature": "onboarding.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/onboarding_tests/shared/onboarding.yaml",
+        ".maestro/shared/use_firebutton.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "onboarding"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/onboarding_tests/03_onboarding_add_to_dock_contextual.yaml",
+      "feature": "onboarding.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/onboarding_tests/shared/onboarding.yaml",
+        ".maestro/shared/use_firebutton.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "onboarding"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/onboarding_tests/shared/onboarding.yaml",
+      "feature": "onboarding.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/01_single-site_single-tab_session.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/02_single-site_new_tab_session.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/03_single-site_new-tab_session_variant_two.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/04_single-site_multi-tab_session.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/05_multi-site_single-tab_session.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/06_multi-tab.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/07_browser_restart_mid-session.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/08_navigation_with_back_forward.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/09_navigation_with_refresh.yaml",
+      "feature": "privacy-attribution.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/10_expired_certificate.yaml",
+      "feature": "tls-warnings.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/11_content_scope_experiments_setup.yaml",
+      "feature": "privacy-diagnostics.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/12_fingerprinting_protection.yaml",
+      "feature": "privacy-diagnostics.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/13_ssl_wrong_host_certificate.yaml",
+      "feature": "tls-warnings.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/14_ssl_self_signed_certificate.yaml",
+      "feature": "tls-warnings.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/privacy_tests/15_ssl_untrusted_root_certificate.yaml",
+      "feature": "tls-warnings.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/ai-chat-ipad.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [],
+      "tags": [
+        "ipad",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/ai-chat-iphone-ipad-flag.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/ai-chat-settings.yaml",
+      "feature": "ai-settings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/ai-chat.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/application-lock.yaml",
+      "feature": "release-privacy-settings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/autoclear.yaml",
+      "feature": "release-privacy-settings.md",
+      "kind": "scenario",
+      "dependencies": [],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/backbutton-close-tab.yaml",
+      "feature": "release-browser.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/backgrounding.yaml",
+      "feature": "release-browser.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/bookmarks-multi.yaml",
+      "feature": "bookmarks-favorites.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/bookmarks.yaml",
+      "feature": "bookmarks-favorites.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/shared/open_browsing_menu_item.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/browsing.yaml",
+      "feature": "release-browser.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/content-blocking.yaml",
+      "feature": "release-privacy-settings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/emailprotection.yaml",
+      "feature": "release-privacy-settings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/favorites.yaml",
+      "feature": "bookmarks-favorites.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml",
+        ".maestro/shared/open_browsing_menu_item.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/firebutton.yaml",
+      "feature": "release-privacy-settings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/shared/use_firebutton.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml"
+      ],
+      "tags": [
+        "iphone"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/local-storage.yaml",
+      "feature": "release-privacy-settings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/shared/open_browsing_menu_item.yaml",
+        ".maestro/shared/use_firebutton.yaml"
+      ],
+      "tags": [
+        "iphone"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/password-authentication.yaml",
+      "feature": "passwords-autofill.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/password-autofill.yaml",
+      "feature": "passwords-autofill.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/shared/open_browsing_menu_item.yaml",
+        ".maestro/shared/delay.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/password-management.yaml",
+      "feature": "passwords-autofill.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/refresh.yaml",
+      "feature": "release-browser.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/tab-switcher-selection.yaml",
+      "feature": "release-browser.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/tabs.yaml",
+      "feature": "release-browser.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/tabswitcher.yaml",
+      "feature": "release-browser.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml",
+        ".maestro/shared/open_browsing_menu_item.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/release_tests/widgets.yaml",
+      "feature": "release-browser.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/setup.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/security_tests/1_-_AddressBarSpoof,_basicauth.yaml",
+      "feature": "address-bar-security.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/security_tests/2_-_AddressBarSpoof,_aboutblank.yaml",
+      "feature": "address-bar-security.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/security_tests/3_-_AddressBarSpoof,_appschemes.yaml",
+      "feature": "address-bar-security.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/security_tests/4_-_AddressBarSpoof,_b64_html.yaml",
+      "feature": "address-bar-security.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/security_tests/5_-_AddressBarSpoof,_downloadpath.yaml",
+      "feature": "address-bar-security.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/security_tests/6_-_AddressBarSpoof,_formaction.yaml",
+      "feature": "address-bar-security.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/security_tests/7_-_AddressBarSpoof,_pagerewrite.yaml",
+      "feature": "address-bar-security.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/security_tests/8_-_AddressBarSpoof,_redirect_filtering.yaml",
+      "feature": "address-bar-security.md",
+      "kind": "scenario",
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/add_bookmarks_and_favorites.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/add_credit_card_from_settings.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/add_login_from_settings.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/check_number_of_tabs.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/copy_recovery_code.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/copy_recovery_code_from_settings.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/shared/open_debug_menu.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/delay.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/dismiss_address_bar_editing.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/dismiss_chat_open_modals.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/duckai_chrome_shortcut_setup.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/expand_contextual_uti.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/hide_daxdialogs.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/open_ai_features_settings.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/open_browsing_menu_item.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/open_chat_tab.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/open_contextual_duckai_from_address_bar.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/open_debug_menu.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/open_manage_duckai_shortcuts.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/pull_to_refresh.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/remove_local_bookmarks.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/remove_local_credit_cards.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/remove_local_logins.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/seed_duckai_usage_warning.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/set_internal_user_from_settings.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/shared/open_debug_menu.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/set_search_and_duckai.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/set_search_only.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/set_sync_dev_environment.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/shared/open_debug_menu.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/setup.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_create.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_delete.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_login.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_logout.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_recover_data.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_setup.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_verify_bookmarks.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [
+        ".maestro/shared/delay.yaml"
+      ],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_verify_credit_cards.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_verify_logins.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/sync_verify_unified_favorites.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/shared/use_firebutton.yaml",
+      "feature": "shared-helpers.md",
+      "kind": "helper",
+      "dependencies": [],
+      "tags": [],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/sync_tests/01_create_account.yaml",
+      "feature": "sync-backup.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/sync_setup.yaml",
+        ".maestro/shared/set_internal_user_from_settings.yaml",
+        ".maestro/shared/set_sync_dev_environment.yaml",
+        ".maestro/shared/sync_create.yaml",
+        ".maestro/shared/sync_delete.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "sync"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/sync_tests/02_login_account.yaml",
+      "feature": "sync-backup.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/sync_setup.yaml",
+        ".maestro/shared/copy_recovery_code_from_settings.yaml",
+        ".maestro/shared/set_internal_user_from_settings.yaml",
+        ".maestro/shared/set_sync_dev_environment.yaml",
+        ".maestro/shared/sync_login.yaml",
+        ".maestro/shared/sync_logout.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "sync"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/sync_tests/03_recover_account.yaml",
+      "feature": "sync-backup.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/sync_setup.yaml",
+        ".maestro/shared/set_internal_user_from_settings.yaml",
+        ".maestro/shared/set_sync_dev_environment.yaml",
+        ".maestro/shared/sync_create.yaml",
+        ".maestro/shared/sync_logout.yaml",
+        ".maestro/shared/sync_recover_data.yaml",
+        ".maestro/shared/sync_delete.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "sync"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/sync_tests/04_sync_data_setup.yaml",
+      "feature": "sync-backup.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/sync_setup.yaml",
+        ".maestro/shared/add_bookmarks_and_favorites.yaml",
+        ".maestro/shared/use_firebutton.yaml",
+        ".maestro/shared/add_login_from_settings.yaml",
+        ".maestro/shared/add_credit_card_from_settings.yaml",
+        ".maestro/shared/copy_recovery_code_from_settings.yaml",
+        ".maestro/shared/set_internal_user_from_settings.yaml",
+        ".maestro/shared/set_sync_dev_environment.yaml",
+        ".maestro/shared/sync_login.yaml",
+        ".maestro/shared/sync_logout.yaml",
+        ".maestro/shared/remove_local_bookmarks.yaml",
+        ".maestro/shared/remove_local_logins.yaml",
+        ".maestro/shared/remove_local_credit_cards.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "sync"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/sync_tests/05_sync_data_check.yaml",
+      "feature": "sync-backup.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/sync_setup.yaml",
+        ".maestro/shared/copy_recovery_code_from_settings.yaml",
+        ".maestro/shared/set_internal_user_from_settings.yaml",
+        ".maestro/shared/set_sync_dev_environment.yaml",
+        ".maestro/shared/sync_login.yaml",
+        ".maestro/shared/sync_verify_bookmarks.yaml",
+        ".maestro/shared/sync_verify_unified_favorites.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml",
+        ".maestro/shared/sync_verify_logins.yaml",
+        ".maestro/shared/sync_verify_credit_cards.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "sync"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/sync_tests/06_delete_account.yaml",
+      "feature": "sync-backup.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/sync_setup.yaml",
+        ".maestro/shared/set_internal_user_from_settings.yaml",
+        ".maestro/shared/set_sync_dev_environment.yaml",
+        ".maestro/shared/sync_create.yaml",
+        ".maestro/shared/sync_delete.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "sync"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/ui_test_overrides/ui_test_overrides.yaml",
+      "feature": "device-and-overrides.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_debug_menu.yaml"
+      ],
+      "tags": [
+        "iphone"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_ai_chat_tab_header.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_chat_tab.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_chat_tab_model_picker.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_chat_tab.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_chat_tab_new_button.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_chat_tab.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_chat_tab_new_chat.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_chat_tab.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_chat_tab_send_prompt.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_chat_tab.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_chat_tab_stop_generating.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_chat_tab.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_chat_tab_toolbar_buttons.yaml",
+      "feature": "ai-chat-tab.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_chat_tab.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_contextual_immediate_uti_manual_context_clears_after_navigation.yaml",
+      "feature": "contextual-ai.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/open_contextual_duckai_from_address_bar.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_contextual_immediate_uti_manual_context_clears_after_post_submit_navigation.yaml",
+      "feature": "contextual-ai.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/open_contextual_duckai_from_address_bar.yaml",
+        ".maestro/shared/expand_contextual_uti.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_contextual_immediate_uti_pre_submit_context.yaml",
+      "feature": "contextual-ai.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/open_contextual_duckai_from_address_bar.yaml",
+        ".maestro/shared/expand_contextual_uti.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_contextual_immediate_uti_pre_submit_toolbar.yaml",
+      "feature": "contextual-ai.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/open_contextual_duckai_from_address_bar.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_contextual_web_uti_auto_attach_regression.yaml",
+      "feature": "contextual-ai.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/open_contextual_duckai_from_address_bar.yaml",
+        ".maestro/shared/expand_contextual_uti.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_contextual_web_uti_manual_attach_regression.yaml",
+      "feature": "contextual-ai.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/open_contextual_duckai_from_address_bar.yaml",
+        ".maestro/shared/expand_contextual_uti.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_enter_chat_from_web.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_search_only_website_active_ai_shortcut_prompt.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_only.yaml",
+        ".maestro/shared/open_contextual_duckai_from_address_bar.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_unified_input_search.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_unified_input_send_prompt.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_unified_input_toolbar_buttons.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_unified_toggle_input.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_uti_duckai_warnings_approaching.yaml",
+      "feature": "ai-usage-warnings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml",
+        ".maestro/shared/seed_duckai_usage_warning.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_uti_duckai_warnings_disabled.yaml",
+      "feature": "ai-usage-warnings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml",
+        ".maestro/shared/seed_duckai_usage_warning.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_uti_duckai_warnings_limit_reached.yaml",
+      "feature": "ai-usage-warnings.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml",
+        ".maestro/shared/seed_duckai_usage_warning.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_uti_multiline_contextual.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_uti_multiline_duck_ai_mode.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_uti_multiline_duck_ai_tab.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/open_chat_tab.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_uti_single_line_no_toggle.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_only.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    },
+    {
+      "source": ".maestro/unified_toggle_input/test_uti_single_line_search_mode.yaml",
+      "feature": "unified-input.md",
+      "kind": "scenario",
+      "dependencies": [
+        ".maestro/shared/dismiss_chat_open_modals.yaml",
+        ".maestro/shared/set_search_and_duckai.yaml",
+        ".maestro/shared/dismiss_address_bar_editing.yaml"
+      ],
+      "tags": [
+        "iphone",
+        "release",
+        "unified_toggle_input"
+      ],
+      "status": "mapped-not-executed"
+    }
+  ],
+  "source_extensions": [
+    {
+      "feature": "features/ai-settings.md",
+      "sources": [
+        "iOS/DuckDuckGo/Settings/Views/Sections/MainSettings/SettingsAIFeaturesView.swift",
+        "iOS/DuckDuckGo/Settings/Views/Sections/MainSettings/SettingsAIExperimentalPickerView.swift"
+      ],
+      "status": "source-mapped-not-executed"
+    },
+    {
+      "feature": "features/subscription-settings.md",
+      "sources": [
+        "iOS/DuckDuckGo/Settings/Views/Sections/Subscription/SettingsSubscriptionView.swift",
+        "iOS/DuckDuckGo/Settings/Views/SettingsRootView.swift",
+        "iOS/DuckDuckGo/Subscription/Views/SubscriptionSettingsView.swift",
+        "iOS/DuckDuckGo/Subscription/Onboarding/Navigation/SubscriptionOnboardingFlowViewModel.swift"
+      ],
+      "status": "source-mapped-not-executed"
+    }
+  ],
+  "additional_browser_sources": [
+    "iOS/Core/LaunchOptionsHandler.swift",
+    "iOS/LocalPackages/FeatureFlags-iOS/Sources/FeatureFlags/FeatureFlag.swift",
+    "iOS/DuckDuckGo/DuckPlayer/DuckPlayerSettings.swift",
+    "iOS/DuckDuckGo/History/HistoryCapture.swift",
+    "iOS/DuckDuckGo/BrowsingMenu/SheetPresentationMenu/BrowsingMenuBuilder.swift",
+    "iOS/DuckDuckGo/Downloads/DownloadsList/View/DownloadsList.swift",
+    "iOS/DuckDuckGo/Downloads/DownloadsList/View/Rows/CompleteDownloadRow.swift",
+    "iOS/DuckDuckGo/Downloads/DownloadsList/ViewModel/CompleteDownloadRowViewModel.swift",
+    "iOS/DuckDuckGo/Downloads/FilePreview/FilePreviewHelper.swift",
+    "iOS/DuckDuckGo/UserInterface/UserText.swift"
+  ]
+}

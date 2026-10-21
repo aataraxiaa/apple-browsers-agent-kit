@@ -1,0 +1,15 @@
+{
+  "name": "apple-browsers-tools",
+  "owner": {
+    "name": "aataraxiaa"
+  },
+  "plugins": [
+    {
+      "name": "apple-browsers",
+      "source": "./plugins/apple-browsers",
+      "description": "DuckDuckGo Apple browsers iOS verification driver.",
+      "version": "0.3.0"
+    }
+  ],
+  "description": "Apple browsers verification tools for Claude Code and Codex."
+}

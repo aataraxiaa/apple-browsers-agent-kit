@@ -1,0 +1,11 @@
+{
+  "name": "apple-browsers",
+  "version": "0.3.0",
+  "description": "Apple browsers iOS builds and verification through MobileBuildMCP.",
+  "author": {
+    "name": "aataraxiaa"
+  },
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "hooks": "./hooks/hooks.json"
+}

@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "mobilebuild": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mobilebuildmcp@2.7.1",
+        "mcp"
+      ],
+      "env": {
+        "MOBILEBUILDMCP_ENABLED_WORKFLOWS": "coverage,debugging,device,doctor,macos,project-discovery,project-scaffolding,session-management,simulator,simulator-management,swift-package,ui-automation,utilities,xcode-ide",
+        "MOBILEBUILDMCP_DISABLE_XCODE_AUTO_SYNC": "true",
+        "MOBILEBUILDMCP_DEBUG": "true",
+        "MOBILEBUILDMCP_EXPERIMENTAL_WORKFLOW_DISCOVERY": "false",
+        "MOBILEBUILDMCP_DISABLE_SESSION_DEFAULTS": "true"
+      }
+    }
+  }
+}
