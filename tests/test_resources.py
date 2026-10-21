@@ -134,7 +134,7 @@ class Resources(unittest.TestCase):
                 (root / name / 'iOS/DuckDuckGo-iOS.xcodeproj').mkdir(parents=True)
             event = {'cwd': str(root / 'chat'), 'hook_event_name': 'PreToolUse', 'tool_name': 'mcp__mobilebuild__build_sim',
                      'tool_input': {'workspacePath': str(root / 'target/DuckDuckGo.xcworkspace'), 'simulatorId': '12345678-1234-1234-1234-123456789abc'}}
-            with patch.object(hook.resources, 'canonical', side_effect=lambda checkout, _root: r.canonical(checkout, root)), patch.object(hook.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, '{}', '')):
+            with patch.object(hook.resources, 'ROOT', root), patch.object(hook.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, json.dumps({'derivedDataPath': str(root / '.dd/target')}), '')):
                 output = hook.handle(event)['hookSpecificOutput']
             self.assertEqual(output['updatedInput']['derivedDataPath'], str(root / '.dd/target'))
             self.assertNotIn('permissionDecision', output)
@@ -195,6 +195,112 @@ class Resources(unittest.TestCase):
                 (task/'untracked').unlink()
                 r.cleanup(task,root)
             self.assertFalse(task.exists())
+
+
+
+class HookResourceFallbacks(unittest.TestCase):
+    def setUp(self):
+        spec = importlib.util.spec_from_file_location('resource_hook', Path(__file__).parents[1] / 'plugins/apple-browsers/hooks/ios_policy.py')
+        self.hook = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.hook)
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.checkout = self.root / 'worktree'
+        (self.checkout / 'DuckDuckGo.xcworkspace').mkdir(parents=True)
+        (self.checkout / 'iOS/DuckDuckGo-iOS.xcodeproj').mkdir(parents=True)
+        self.cache = self.root / '.dd/worktree'
+        self.cache.mkdir(parents=True)
+        self.event = {'cwd': str(self.checkout), 'hook_event_name': 'PreToolUse',
+                      'tool_name': 'mcp__mobilebuild__build_sim',
+                      'tool_input': {'simulatorId': '12345678-1234-1234-1234-123456789abc',
+                                     'derivedDataPath': '/tmp/caller-cache'}}
+        self.argv = patch.object(self.hook.sys, 'argv', ['ios_policy.py', '--root', str(self.root)])
+        self.argv.start()
+        self.addCleanup(self.argv.stop)
+
+    def assert_fallback(self, output):
+        specific = output.get('hookSpecificOutput', {})
+        self.assertNotIn('permissionDecision', specific)
+        self.assertNotIn('updatedInput', specific)
+        self.assertIn('warning', specific.get('additionalContext', '').lower())
+        self.assertEqual(self.event['tool_input']['derivedDataPath'], '/tmp/caller-cache')
+
+    def test_invalid_cache_ownership_in_real_hook_process(self):
+        owner = self.cache / '.apple-owner.json'
+        product = self.cache / 'product'
+        product.write_text('keep')
+        for metadata in ['{', '{}', '[]', 'null', '{"checkout": "/another/worktree"}']:
+            with self.subTest(metadata=metadata):
+                owner.write_text(metadata)
+                result = subprocess.run(['python3', self.hook.__file__, '--root', str(self.root)],
+                                        input=json.dumps(self.event), capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assert_fallback(json.loads(result.stdout))
+                prepared = subprocess.run(['python3', r.__file__, 'prepare', str(self.checkout), '--root', str(self.root)],
+                                          capture_output=True, text=True)
+                self.assertEqual(prepared.returncode, 0, prepared.stderr)
+                self.assertTrue(json.loads(prepared.stdout)['continueBuild'])
+                self.assertNotIn('derivedDataPath', json.loads(prepared.stdout))
+                self.assertEqual(owner.read_text(), metadata)
+                self.assertEqual(product.read_text(), 'keep')
+
+    def test_malformed_stop_metadata_in_real_hook_process(self):
+        (self.cache / '.apple-owner.json').write_text('null')
+        result = subprocess.run(['python3', self.hook.__file__, '--root', str(self.root)],
+                                input=json.dumps(dict(self.event, hook_event_name='Stop')),
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        output = json.loads(result.stdout)
+        self.assertEqual(set(output), {'systemMessage'})
+        self.assertIn('warning', output['systemMessage'].lower())
+
+    def test_symlink_cache_and_owner_are_not_prepared(self):
+        target = self.root / 'other'
+        target.mkdir()
+        for owner_link in (False, True):
+            with self.subTest(owner_link=owner_link):
+                if owner_link:
+                    self.cache.unlink()
+                    self.cache.mkdir()
+                    metadata = target / 'owner.json'
+                    metadata.write_text(json.dumps({'checkout': str(self.checkout)}))
+                    (self.cache / '.apple-owner.json').symlink_to(metadata)
+                else:
+                    self.cache.rmdir()
+                    self.cache.symlink_to(target, target_is_directory=True)
+                with patch.object(self.hook.subprocess, 'run') as prepare:
+                    self.assert_fallback(self.hook.handle(self.event))
+                prepare.assert_not_called()
+
+    def test_preparation_failures_leave_input_unchanged(self):
+        for error in [OSError('cannot start helper'), subprocess.TimeoutExpired('prepare', 2), subprocess.CalledProcessError(1, 'prepare')]:
+            with self.subTest(error=error), patch.object(self.hook.subprocess, 'run', side_effect=error):
+                self.assert_fallback(self.hook.handle(self.event))
+        for code, stdout in [(0, 'not json'), (0, '{}'), (0, 'null'), (0, json.dumps({'warning': 'owner changed', 'continueBuild': True})), (0, json.dumps({'derivedDataPath': '/wrong/cache'}))]:
+            with self.subTest(code=code, stdout=stdout), patch.object(self.hook.subprocess, 'run', return_value=subprocess.CompletedProcess([], code, stdout, 'prepare failed')):
+                self.assert_fallback(self.hook.handle(self.event))
+        with patch.object(self.hook.resources, 'canonical', side_effect=OSError('cannot read owner')), patch.object(self.hook.subprocess, 'run') as prepare:
+            self.assert_fallback(self.hook.handle(self.event))
+        prepare.assert_not_called()
+
+    def test_stop_failures_warn_without_blocking(self):
+        event = dict(self.event, hook_event_name='Stop')
+        for error in [OSError('cannot inspect cache'), TypeError('invalid owner'),
+                      AttributeError('invalid owner'), subprocess.TimeoutExpired('report', 0.5)]:
+            with self.subTest(error=error), patch.object(self.hook.resources, 'report', side_effect=error):
+                output = self.hook.handle(event)
+                self.assertEqual(set(output), {'systemMessage'})
+                self.assertIn('warning', output['systemMessage'].lower())
+
+    def test_resource_failure_does_not_bypass_simulator_or_defaults_guards(self):
+        with patch.object(self.hook.resources, 'canonical', side_effect=OSError('unavailable')) as canonical:
+            event = dict(self.event, tool_input={})
+            self.assertEqual(self.hook.handle(event)['hookSpecificOutput']['permissionDecision'], 'deny')
+            event = dict(self.event, tool_name='mcp__mobilebuild__session_set_defaults')
+            self.assertEqual(self.hook.handle(event)['hookSpecificOutput']['permissionDecision'], 'deny')
+        canonical.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()
