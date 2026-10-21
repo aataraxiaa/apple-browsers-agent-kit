@@ -26,10 +26,10 @@ assert set(server['mobilebuild']['env']['MOBILEBUILDMCP_ENABLED_WORKFLOWS'].spli
 assert server['mobilebuild']['env']['MOBILEBUILDMCP_DEBUG'] == 'true'
 assert server['mobilebuild']['env']['MOBILEBUILDMCP_EXPERIMENTAL_WORKFLOW_DISCOVERY'] == 'false'
 hooks = json.loads((plugin / 'hooks/hooks.json').read_text())['hooks']
-assert set(hooks) == {'PreToolUse'}
+assert set(hooks) == {'PreToolUse', 'Stop'}
 for entries in hooks.values():
     assert len(entries) == 1
-    assert entries[0]['hooks'] == [{'type': 'command', 'command': 'python3 "${CLAUDE_PLUGIN_ROOT}/hooks/ios_policy.py"'}]
+    assert entries[0]['hooks'][0]['command'] == 'python3 "${CLAUDE_PLUGIN_ROOT}/hooks/ios_policy.py"'
 assert (plugin / 'hooks/ios_policy.py').is_file()
 assert (plugin / 'policy.md').is_file()
 for path in root.rglob('*'):

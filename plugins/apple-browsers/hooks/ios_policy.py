@@ -4,6 +4,12 @@ from pathlib import Path
 import re
 import shlex
 import sys
+import importlib.util
+import subprocess
+
+spec = importlib.util.spec_from_file_location("apple_resources", Path(__file__).resolve().parents[1] / "scripts/resources.py")
+resources = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(resources)
 
 ROOT = Path(__file__).resolve().parents[1]
 PROVIDERS = {"mobilebuild", "MobileBuildMCP", "mobilebuildmcp", "XcodeBuildMCP", "xcodebuildmcp",
@@ -126,6 +132,8 @@ def handle(event):
         pass
     if not any(checkout(path) for path in paths):
         return {}
+    if event.get("hook_event_name") == "Stop":
+        return {"systemMessage": "Apple browsers resource report: " + json.dumps(resources.report(Path(sys.argv[2]) if len(sys.argv) == 3 and sys.argv[1] == "--root" else resources.ROOT))}
     if event.get("hook_event_name") != "PreToolUse":
         return {}
     tool = event.get("tool_name", "")
@@ -138,6 +146,28 @@ def handle(event):
                 return deny("Pass your owned debugSessionId explicitly; the current debugger session is shared.")
         if operation in DEFAULTS_MUTATIONS:
             return deny("Pass explicit per-call parameters; do not mutate shared MobileBuildMCP defaults or profiles.")
+        if operation in {"build_sim", "build_run_sim", "test_sim", "get_sim_app_path"}:
+            if not simulator_id(data.get("simulatorId")):
+                return deny("Pass your leased simulatorId explicitly.")
+            explicit = data.get("workspacePath") or data.get("projectPath")
+            base = Path(data.get("cwd") or data.get("workdir") or event.get("cwd") or ".")
+            selected = (Path(explicit) if Path(explicit).is_absolute() else base / explicit) if explicit else next((Path(p).absolute() for p in paths if p and checkout(p)), None)
+            selected = selected.absolute() if selected else None
+            while selected and not (selected / "DuckDuckGo.xcworkspace").is_dir():
+                selected = selected.parent
+            try:
+                cache = resources.canonical(selected)
+                try:
+                    completed = subprocess.run([sys.executable, str(ROOT / "scripts/resources.py"), "prepare", str(selected)],
+                                               capture_output=True, text=True, timeout=2)
+                    prepared = json.loads(completed.stdout) if completed.returncode == 0 else {"warning": completed.stderr.strip()}
+                except (subprocess.TimeoutExpired, ValueError):
+                    prepared = {"warning": "Resource preparation exceeded hook budget; run prepare explicitly and report free space."}
+            except ValueError as error:
+                return deny("Cannot establish canonical derived data ownership: " + str(error))
+            return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "updatedInput":
+                    dict(data, derivedDataPath=str(cache)), "additionalContext":
+                    (ROOT / "policy.md").read_text() + "\nResource preparation: " + json.dumps(prepared)}}
         if operation in SIMULATOR_TOOLS:
             if not simulator_id(data.get("simulatorId")):
                 return deny("Pass the agent's explicit simulator UUID as simulatorId on every simulator build or drive call.")
