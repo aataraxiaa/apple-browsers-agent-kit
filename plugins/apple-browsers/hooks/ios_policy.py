@@ -134,7 +134,10 @@ def handle(event):
     if not any(checkout(path) for path in paths):
         return {}
     if event.get("hook_event_name") == "Stop":
-        return {"systemMessage": resources.report_text(resources.report(resource_root, checkout=event.get("cwd")))}
+        try:
+            return {"systemMessage": resources.report_text(resources.report(resource_root, checkout=event.get("cwd")))}
+        except (OSError, ValueError, KeyError, TypeError, AttributeError, subprocess.SubprocessError) as error:
+            return {"systemMessage": "Resource report warning: " + str(error)}
     if event.get("hook_event_name") != "PreToolUse":
         return {}
     tool = event.get("tool_name", "")
@@ -164,17 +167,19 @@ def handle(event):
                 selected = selected.parent
             try:
                 cache = resources.canonical(selected, resource_root)
-                try:
-                    completed = subprocess.run([sys.executable, str(ROOT / "scripts/resources.py"), "prepare", str(selected), "--root", str(resource_root)],
-                                               capture_output=True, text=True, timeout=2)
-                    prepared = json.loads(completed.stdout) if completed.returncode == 0 else {"warning": completed.stderr.strip()}
-                except (subprocess.TimeoutExpired, ValueError):
-                    prepared = {"warning": "Resource preparation exceeded hook budget; run prepare explicitly and report free space."}
-            except ValueError as error:
-                return deny("Cannot establish canonical derived data ownership: " + str(error))
+                completed = subprocess.run([sys.executable, str(ROOT / "scripts/resources.py"), "prepare", str(selected), "--root", str(resource_root)],
+                                           capture_output=True, text=True, timeout=2, check=True)
+                prepared = json.loads(completed.stdout)
+                if not isinstance(prepared, dict) or prepared.get("derivedDataPath") != str(cache) or "warning" in prepared:
+                    raise ValueError("Preparation did not confirm the canonical cache: " + json.dumps(prepared))
+                context = (ROOT / "policy.md").read_text()
+            except (OSError, ValueError, KeyError, TypeError, AttributeError, subprocess.SubprocessError) as error:
+                return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "additionalContext":
+                        "Resource preparation warning: " + str(error) +
+                        ". Tool inputs unchanged; canonical cache was not selected. Report the resource issue."}}
             return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "updatedInput":
                     dict(data, derivedDataPath=str(cache)), "additionalContext":
-                    (ROOT / "policy.md").read_text() + "\nResource preparation: " + json.dumps(prepared)}}
+                    context + "\nResource preparation: " + json.dumps(prepared)}}
         if operation in SIMULATOR_TOOLS:
             if not simulator_id(data.get("simulatorId")):
                 return deny("Pass the agent's explicit simulator UUID as simulatorId on every simulator build or drive call.")

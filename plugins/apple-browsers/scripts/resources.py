@@ -38,7 +38,7 @@ def canonical(checkout, root=ROOT):
     if checkout.is_symlink():
         raise ValueError("Symlink checkout refused")
     cache = safe(Path(root) / '.dd' / checkout.name, Path(root) / '.dd')
-    metadata = cache / '.apple-owner.json'
+    metadata = safe(cache / '.apple-owner.json', Path(root) / '.dd')
     if metadata.exists() and json.loads(metadata.read_text())['checkout'] != str(checkout):
         raise ValueError('Derived-data basename ownership collision')
     if cache.exists() and not metadata.exists() and any(cache.iterdir()):
@@ -450,7 +450,7 @@ def main():
     if args.action == 'prepare':
         try:
             result = prepare(args.checkout, args.root)
-        except (OSError, ValueError, subprocess.SubprocessError) as error:
+        except (OSError, ValueError, KeyError, TypeError, AttributeError, subprocess.SubprocessError) as error:
             result = {'warning': str(error), 'continueBuild': True}
     elif args.action == 'cleanup':
         result = cleanup(args.checkout, args.root)

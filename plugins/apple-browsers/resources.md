@@ -4,11 +4,11 @@
 
 ## Build cache
 
-Run `python3 "$PLUGIN_ROOT/scripts/resources.py" prepare "$CHECKOUT"` before a build. Every build and product lookup uses `~/code/apple-browsers-worktrees/.dd/<worktree-name>`. No alternate per-run directories. A matching completed receipt must cover HEAD, local edits, build inputs and app content; see build-ios. Concurrent worktrees use distinct caches; builds in one worktree run sequentially.
+Run `python3 "$PLUGIN_ROOT/scripts/resources.py" prepare "$CHECKOUT"` before a build. When ownership validation and preparation succeed, builds and product lookups use `~/code/apple-browsers-worktrees/.dd/<worktree-name>`. No alternate per-run directories. A matching completed receipt must cover HEAD, local edits, build inputs and app content; see build-ios. Concurrent worktrees use distinct caches; builds in one worktree run sequentially.
 
-Below 60 GiB free, preparation attempts cache-only reclamation in this order: absent worktrees, merged or confirmed remotely deleted branches, then least recently used. It preserves the current cache and live xcodebuild targets. Failed process inspection disables deletion. Low space and cleanup failures never stop the build; report them at the end. Symlinks and conflicting cache ownership are errors to correct, not permission to use someone else’s cache. No existing legacy DerivedData directories are migrated or deleted.
+Below 60 GiB free, preparation attempts cache-only reclamation in this order: absent worktrees, merged or confirmed remotely deleted branches, then least recently used. It preserves the current cache and live xcodebuild targets. Failed process inspection disables deletion. Low space and cleanup failures never stop the build; report them at the end. Resource preparation is best effort. If ownership metadata is malformed or conflicting, a managed path is a symlink, or preparation fails or times out, the hook warns and leaves the tool inputs unchanged. It does not select the uncertain cache or deny the build. Correct ownership before explicitly selecting that cache; uncertainty never authorizes deletion. Simulator UUID and shared-default protections still apply. No existing legacy DerivedData directories are migrated or deleted.
 
-After a build, run `python3 "$PLUGIN_ROOT/scripts/resources.py" report "$CHECKOUT"` for size observations. The report-only Stop hook uses a half-second budget, local Git state and bounded/cached sizes. Unknown sizes are labelled; local upstream-gone observations are not remote deletion proof. It never deletes or returns a blocking decision.
+After a build, run `python3 "$PLUGIN_ROOT/scripts/resources.py" report "$CHECKOUT"` for size observations. The report-only Stop hook uses a half-second budget, local Git state and bounded/cached sizes. Unknown sizes are labelled; local upstream-gone observations are not remote deletion proof. Report failures produce a warning. It never deletes or returns a blocking decision.
 
 ## Simulator lease
 
