@@ -19,7 +19,7 @@ class PolicyTests(unittest.TestCase):
     def event(self, tool='Bash', command='', cwd=None, **data):
         event = {'hook_event_name': 'PreToolUse', 'cwd': str(cwd or self.root),
                  'tool_name': tool, 'tool_input': {'command': command, **data}}
-        result = subprocess.run(['python3', str(HOOK)], input=json.dumps(event), text=True, capture_output=True, check=True)
+        result = subprocess.run(['python3', str(HOOK), '--root', str(self.root / 'resources')], input=json.dumps(event), text=True, capture_output=True, check=True)
         return json.loads(result.stdout)
 
     def test_common_bypasses_are_denied(self):
@@ -48,7 +48,7 @@ class PolicyTests(unittest.TestCase):
     def test_no_startup_injection(self):
         for name in ['SessionStart', 'SubagentStart']:
             event = {'hook_event_name': name, 'cwd': str(self.root / 'iOS/nested')}
-            result = subprocess.run(['python3', str(HOOK)], input=json.dumps(event), text=True, capture_output=True, check=True)
+            result = subprocess.run(['python3', str(HOOK), '--root', str(self.root / 'resources')], input=json.dumps(event), text=True, capture_output=True, check=True)
             self.assertEqual(json.loads(result.stdout), {})
 
     def test_provider_target_and_context(self):
@@ -60,6 +60,9 @@ class PolicyTests(unittest.TestCase):
                         response = self.event(tool=tool, simulatorId=invalid)
                         self.assertEqual(response.get('hookSpecificOutput', {}).get('permissionDecision'), 'deny')
                     response = self.event(tool=tool, simulatorId='12345678-1234-4234-8234-123456789ABC')
+                    if operation == 'erase_sims':
+                        self.assertEqual(response['hookSpecificOutput']['permissionDecision'], 'deny')
+                        continue
                     self.assertNotIn('permissionDecision', response['hookSpecificOutput'])
                     self.assertIn('simulatorId', response['hookSpecificOutput']['additionalContext'])
             for operation in ['list_sims', 'build_macos', 'session_show_defaults']:

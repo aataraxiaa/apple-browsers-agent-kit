@@ -4,6 +4,12 @@ from pathlib import Path
 import re
 import shlex
 import sys
+import importlib.util
+import subprocess
+
+spec = importlib.util.spec_from_file_location("apple_resources", Path(__file__).resolve().parents[1] / "scripts/resources.py")
+resources = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(resources)
 
 ROOT = Path(__file__).resolve().parents[1]
 PROVIDERS = {"mobilebuild", "MobileBuildMCP", "mobilebuildmcp", "XcodeBuildMCP", "xcodebuildmcp",
@@ -112,6 +118,7 @@ def bypass(command):
 
 
 def handle(event):
+    resource_root = Path(sys.argv[2]) if len(sys.argv) == 3 and sys.argv[1] == "--root" else resources.ROOT
     data = event.get("tool_input") or {}
     command = data.get("command", data.get("cmd", ""))
     paths = [event.get("cwd"), data.get("cwd"), data.get("workdir"), data.get("workspacePath"), data.get("projectPath")]
@@ -126,18 +133,53 @@ def handle(event):
         pass
     if not any(checkout(path) for path in paths):
         return {}
+    if event.get("hook_event_name") == "Stop":
+        try:
+            return {"systemMessage": resources.report_text(resources.report(resource_root, checkout=event.get("cwd")))}
+        except (OSError, ValueError, KeyError, TypeError, AttributeError, subprocess.SubprocessError) as error:
+            return {"systemMessage": "Resource report warning: " + str(error)}
     if event.get("hook_event_name") != "PreToolUse":
         return {}
     tool = event.get("tool_name", "")
     parts = tool.split("__")
     provider, operation = parts[1:] if len(parts) == 3 and parts[0] == "mcp" else (None, None)
     if provider in PROVIDERS:
+        if operation == "erase_sims":
+            ident = data.get("simulatorId")
+            if not simulator_id(ident) or not (resource_root / ".sim-created" / (ident.lower() + ".json")).is_file():
+                return deny("Never erase a simulator without this plugin's creation record.")
         if operation in DEBUG_SESSION_TOOLS:
             session = data.get("debugSessionId")
             if not isinstance(session, str) or not session.strip():
                 return deny("Pass your owned debugSessionId explicitly; the current debugger session is shared.")
         if operation in DEFAULTS_MUTATIONS:
             return deny("Pass explicit per-call parameters; do not mutate shared MobileBuildMCP defaults or profiles.")
+        if operation in {"build_sim", "build_run_sim", "test_sim", "get_sim_app_path"}:
+            if not simulator_id(data.get("simulatorId")):
+                return deny("Pass your leased simulatorId explicitly.")
+            explicit = data.get("workspacePath") or data.get("projectPath")
+            base = Path(data.get("cwd") or data.get("workdir") or event.get("cwd") or ".")
+            selected = (Path(explicit) if Path(explicit).is_absolute() else base / explicit) if explicit else next((Path(p).absolute() for p in paths if p and checkout(p)), None)
+            selected = selected.absolute() if selected else None
+            while selected and not (selected / "DuckDuckGo.xcworkspace").is_dir():
+                if selected.parent == selected:
+                    return {}
+                selected = selected.parent
+            try:
+                cache = resources.canonical(selected, resource_root)
+                completed = subprocess.run([sys.executable, str(ROOT / "scripts/resources.py"), "prepare", str(selected), "--root", str(resource_root)],
+                                           capture_output=True, text=True, timeout=2, check=True)
+                prepared = json.loads(completed.stdout)
+                if not isinstance(prepared, dict) or prepared.get("derivedDataPath") != str(cache) or "warning" in prepared:
+                    raise ValueError("Preparation did not confirm the canonical cache: " + json.dumps(prepared))
+                context = (ROOT / "policy.md").read_text()
+            except (OSError, ValueError, KeyError, TypeError, AttributeError, subprocess.SubprocessError) as error:
+                return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "additionalContext":
+                        "Resource preparation warning: " + str(error) +
+                        ". Tool inputs unchanged; canonical cache was not selected. Report the resource issue."}}
+            return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "updatedInput":
+                    dict(data, derivedDataPath=str(cache)), "additionalContext":
+                    context + "\nResource preparation: " + json.dumps(prepared)}}
         if operation in SIMULATOR_TOOLS:
             if not simulator_id(data.get("simulatorId")):
                 return deny("Pass the agent's explicit simulator UUID as simulatorId on every simulator build or drive call.")

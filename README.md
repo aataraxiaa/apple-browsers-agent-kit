@@ -4,7 +4,7 @@ Companion plugin for DuckDuckGo apple-browsers iOS. The plugin supplies separate
 
 ## Acceptance status
 
-This is a prerelease verification driver. Packaging, skill validation, source inventory, hook behavior tests, and native installation directly from the GitHub repository passed in both Codex and Claude Code. All 38 installed plugin files matched the source byte for byte, with no symlinks. The map covers 141 scenarios and 58 helpers/configuration files across 28 guides. None of those scenarios has been accepted through MobileBuildMCP yet: the authoring session cannot connect to macOS CoreSimulator. A successful live build, one mapped scenario, and cleanup are still required by AStack's create-verification-skill workflow. Do not interpret mapping completeness or tool discovery as app verification.
+This is a prerelease verification driver. Packaging, skill validation, source inventory, hook behavior tests, and native installation directly from the GitHub repository passed in both Codex and Claude Code. For version 0.3.0, all 38 installed plugin files matched the source byte for byte, with no symlinks. The map covers 141 scenarios and 58 helpers/configuration files across 28 guides. None of those scenarios has been accepted through MobileBuildMCP yet: the authoring session cannot connect to macOS CoreSimulator. A successful live build, one mapped scenario, and cleanup are still required by AStack's create-verification-skill workflow. Do not interpret mapping completeness or tool discovery as app verification.
 
 ## Install from GitHub
 
@@ -40,7 +40,7 @@ The bundled server enables all 14 stable workflows in the pinned package: covera
 
 A real MCP initialize and tools/list with this configuration returned 80 tools. The conditional sync_xcode_defaults tool appears only when running inside Xcode with auto-sync disabled. The experimental manage_workflows tool remains absent by choice. Xcode IDE bridge tools are exposed outside Xcode agent mode, but successful bridge calls require an accessible Xcode MCP bridge and its permissions. Listing a tool does not establish simulator, device, debugger, or Xcode availability on the host.
 
-The server exposes explicit target arguments with `MOBILEBUILDMCP_DISABLE_SESSION_DEFAULTS=true`. Each simulator call must include its assigned `simulatorId`; shared default and profile mutations are prohibited. Assign a different simulator to each driver and a different `derivedDataPath` to each concurrent builder. Debugger calls require an explicit `debugSessionId`. Xcode auto-sync stays disabled. Restart the server after updating so its tool schemas refresh.
+The server exposes explicit target arguments with `MOBILEBUILDMCP_DISABLE_SESSION_DEFAULTS=true`. Each simulator call must include its assigned `simulatorId`; shared default and profile mutations are prohibited. Assign a different simulator to each driver and the canonical `derivedDataPath` for each worktree; builders in one worktree run sequentially. Debugger calls require an explicit `debugSessionId`. Xcode auto-sync stays disabled. Restart the server after updating so its tool schemas refresh.
 
 The build skill reuses a completed app only when its source and build receipt match, including local edits. Verification installs that app on its assigned simulator. Compile-only builds do not authorize simulator interaction.
 
@@ -68,3 +68,9 @@ Packaging and hook tests do not prove native execution. For native acceptance, o
 The verification entry point is `plugins/apple-browsers/skills/verify-ios/SKILL.md`. Its 28 feature guides and complete YAML inventory live in the adjacent `features/` directory. These are the companion skills built for this setup and adapted to MobileBuildMCP, using existing app test flows as behavior references. They are not a claim that those flows have been executed through the new provider.
 
 The companion works independently through its skills and routing hooks. Automatic external-driver discovery in AStack requires its external-verification support, implemented in the local AStack 0.1.5 source. Its release and installed availability have not been verified; check that the installed poteto-mode skill links to verification-drivers.md. That AStack change is separate from this package; installing this companion does not upgrade AStack. With an older AStack, explicitly invoke `apple-browsers:verify-ios` and `apple-browsers:build-ios`.
+
+## Disk and simulator resources
+
+See [resource ownership](plugins/apple-browsers/resources.md) for the canonical build cache, best-effort reclamation, simulator leases and explicit safe cleanup command. The Stop hook reports candidates without deleting them. This is companion-plugin policy; AStack is unchanged.
+
+The 0.4.0 resource changes pass 29 policy/resource tests, including ranked fake-cache reclamation, current/live protection, a real throwaway Git worktree cleanup, simulator ownership with fake lifecycle execution, and a subprocess Stop report. Live simulator lifecycle has not been exercised. A host that cannot inspect processes skips automatic reclamation and refuses explicit worktree cleanup.
